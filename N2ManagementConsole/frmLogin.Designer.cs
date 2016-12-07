@@ -34,7 +34,6 @@
             this.btnSocketOff = new System.Windows.Forms.Button();
             this.btnP1On = new System.Windows.Forms.Button();
             this.btnP2Off = new System.Windows.Forms.Button();
-            this.btnPanelCtl = new System.Windows.Forms.Button();
             this.DashBoardPanel = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -72,6 +71,7 @@
             this.lblDevices.Size = new System.Drawing.Size(106, 13);
             this.lblDevices.TabIndex = 0;
             this.lblDevices.Text = "Discovered Devices:";
+            this.lblDevices.Visible = false;
             // 
             // cmbDevices
             // 
@@ -80,6 +80,7 @@
             this.cmbDevices.Name = "cmbDevices";
             this.cmbDevices.Size = new System.Drawing.Size(121, 21);
             this.cmbDevices.TabIndex = 1;
+            this.cmbDevices.Visible = false;
             // 
             // btnSocketOn
             // 
@@ -89,6 +90,7 @@
             this.btnSocketOn.TabIndex = 2;
             this.btnSocketOn.Text = "Main On";
             this.btnSocketOn.UseVisualStyleBackColor = true;
+            this.btnSocketOn.Visible = false;
             this.btnSocketOn.Click += new System.EventHandler(this.btnSocketOn_Click);
             // 
             // btnSocketOff
@@ -99,6 +101,7 @@
             this.btnSocketOff.TabIndex = 3;
             this.btnSocketOff.Text = "Main Off";
             this.btnSocketOff.UseVisualStyleBackColor = true;
+            this.btnSocketOff.Visible = false;
             this.btnSocketOff.Click += new System.EventHandler(this.btnSocketOff_Click);
             // 
             // btnP1On
@@ -109,6 +112,7 @@
             this.btnP1On.TabIndex = 4;
             this.btnP1On.Text = "P1 ON";
             this.btnP1On.UseVisualStyleBackColor = true;
+            this.btnP1On.Visible = false;
             this.btnP1On.Click += new System.EventHandler(this.btnP1On_Click);
             // 
             // btnP2Off
@@ -119,24 +123,16 @@
             this.btnP2Off.TabIndex = 7;
             this.btnP2Off.Text = "P2 Off";
             this.btnP2Off.UseVisualStyleBackColor = true;
+            this.btnP2Off.Visible = false;
             this.btnP2Off.Click += new System.EventHandler(this.btnP2Off_Click);
-            // 
-            // btnPanelCtl
-            // 
-            this.btnPanelCtl.Location = new System.Drawing.Point(371, 15);
-            this.btnPanelCtl.Name = "btnPanelCtl";
-            this.btnPanelCtl.Size = new System.Drawing.Size(103, 23);
-            this.btnPanelCtl.TabIndex = 10;
-            this.btnPanelCtl.Text = "Panel Control";
-            this.btnPanelCtl.UseVisualStyleBackColor = true;
-            this.btnPanelCtl.Click += new System.EventHandler(this.btnPanelCtl_Click);
             // 
             // DashBoardPanel
             // 
-            this.DashBoardPanel.AutoSize = true;
-            this.DashBoardPanel.Location = new System.Drawing.Point(12, 91);
+            this.DashBoardPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.DashBoardPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DashBoardPanel.Location = new System.Drawing.Point(0, 0);
             this.DashBoardPanel.Name = "DashBoardPanel";
-            this.DashBoardPanel.Size = new System.Drawing.Size(1099, 700);
+            this.DashBoardPanel.Size = new System.Drawing.Size(1192, 882);
             this.DashBoardPanel.TabIndex = 9;
             this.DashBoardPanel.Visible = false;
             this.DashBoardPanel.Click += new System.EventHandler(this.DashBoardPanel_Click);
@@ -261,10 +257,12 @@
             // 
             // LoginPanel
             // 
+            this.LoginPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.LoginPanel.Controls.Add(this.groupBox1);
-            this.LoginPanel.Location = new System.Drawing.Point(12, 91);
+            this.LoginPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.LoginPanel.Location = new System.Drawing.Point(0, 0);
             this.LoginPanel.Name = "LoginPanel";
-            this.LoginPanel.Size = new System.Drawing.Size(1168, 753);
+            this.LoginPanel.Size = new System.Drawing.Size(1192, 882);
             this.LoginPanel.TabIndex = 8;
             this.LoginPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.LoginPanel_Paint);
             // 
@@ -276,6 +274,7 @@
             this.btnP2On.TabIndex = 12;
             this.btnP2On.Text = "P2 ON";
             this.btnP2On.UseVisualStyleBackColor = true;
+            this.btnP2On.Visible = false;
             this.btnP2On.Click += new System.EventHandler(this.btnP2On_Click);
             // 
             // btnP1Off
@@ -286,14 +285,16 @@
             this.btnP1Off.TabIndex = 11;
             this.btnP1Off.Text = "P1 Off";
             this.btnP1Off.UseVisualStyleBackColor = true;
+            this.btnP1Off.Visible = false;
             this.btnP1Off.Click += new System.EventHandler(this.btnP1Off_Click);
             // 
             // metroCteFlrPlanPanel
             // 
-            this.metroCteFlrPlanPanel.AutoSize = true;
-            this.metroCteFlrPlanPanel.Location = new System.Drawing.Point(12, 91);
+            this.metroCteFlrPlanPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.metroCteFlrPlanPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.metroCteFlrPlanPanel.Location = new System.Drawing.Point(0, 0);
             this.metroCteFlrPlanPanel.Name = "metroCteFlrPlanPanel";
-            this.metroCteFlrPlanPanel.Size = new System.Drawing.Size(1168, 753);
+            this.metroCteFlrPlanPanel.Size = new System.Drawing.Size(1192, 882);
             this.metroCteFlrPlanPanel.TabIndex = 1;
             this.metroCteFlrPlanPanel.Visible = false;
             this.metroCteFlrPlanPanel.Click += new System.EventHandler(this.metroCteFlrPlanPanel_Click);
@@ -301,10 +302,11 @@
             // 
             // socketsInMetroCtrPanel
             // 
-            this.socketsInMetroCtrPanel.AutoSize = true;
-            this.socketsInMetroCtrPanel.Location = new System.Drawing.Point(12, 91);
+            this.socketsInMetroCtrPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.socketsInMetroCtrPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.socketsInMetroCtrPanel.Location = new System.Drawing.Point(0, 0);
             this.socketsInMetroCtrPanel.Name = "socketsInMetroCtrPanel";
-            this.socketsInMetroCtrPanel.Size = new System.Drawing.Size(1168, 753);
+            this.socketsInMetroCtrPanel.Size = new System.Drawing.Size(1192, 882);
             this.socketsInMetroCtrPanel.TabIndex = 2;
             this.socketsInMetroCtrPanel.Visible = false;
             this.socketsInMetroCtrPanel.Click += new System.EventHandler(this.socketsInMetroCtrPanel_Click);
@@ -312,10 +314,11 @@
             // 
             // TenthFlrpanel
             // 
-            this.TenthFlrpanel.AutoSize = true;
-            this.TenthFlrpanel.Location = new System.Drawing.Point(12, 91);
+            this.TenthFlrpanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.TenthFlrpanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TenthFlrpanel.Location = new System.Drawing.Point(0, 0);
             this.TenthFlrpanel.Name = "TenthFlrpanel";
-            this.TenthFlrpanel.Size = new System.Drawing.Size(1168, 753);
+            this.TenthFlrpanel.Size = new System.Drawing.Size(1192, 882);
             this.TenthFlrpanel.TabIndex = 2;
             this.TenthFlrpanel.Visible = false;
             this.TenthFlrpanel.Click += new System.EventHandler(this.TenthFlrpanel_Click);
@@ -323,10 +326,11 @@
             // 
             // SandBoxPanel
             // 
-            this.SandBoxPanel.AutoSize = true;
-            this.SandBoxPanel.Location = new System.Drawing.Point(12, 91);
+            this.SandBoxPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.SandBoxPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SandBoxPanel.Location = new System.Drawing.Point(0, 0);
             this.SandBoxPanel.Name = "SandBoxPanel";
-            this.SandBoxPanel.Size = new System.Drawing.Size(1168, 753);
+            this.SandBoxPanel.Size = new System.Drawing.Size(1192, 882);
             this.SandBoxPanel.TabIndex = 2;
             this.SandBoxPanel.Visible = false;
             this.SandBoxPanel.Click += new System.EventHandler(this.SandBoxPanel_Click);
@@ -334,10 +338,11 @@
             // 
             // gridSocketPanel
             // 
-            this.gridSocketPanel.AutoSize = true;
-            this.gridSocketPanel.Location = new System.Drawing.Point(12, 91);
+            this.gridSocketPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.gridSocketPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridSocketPanel.Location = new System.Drawing.Point(0, 0);
             this.gridSocketPanel.Name = "gridSocketPanel";
-            this.gridSocketPanel.Size = new System.Drawing.Size(1168, 753);
+            this.gridSocketPanel.Size = new System.Drawing.Size(1192, 882);
             this.gridSocketPanel.TabIndex = 2;
             this.gridSocketPanel.Visible = false;
             this.gridSocketPanel.Click += new System.EventHandler(this.gridSocketPanel_Click);
@@ -345,10 +350,11 @@
             // 
             // filterPeoplePanel
             // 
-            this.filterPeoplePanel.AutoSize = true;
-            this.filterPeoplePanel.Location = new System.Drawing.Point(12, 91);
+            this.filterPeoplePanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.filterPeoplePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.filterPeoplePanel.Location = new System.Drawing.Point(0, 0);
             this.filterPeoplePanel.Name = "filterPeoplePanel";
-            this.filterPeoplePanel.Size = new System.Drawing.Size(1168, 753);
+            this.filterPeoplePanel.Size = new System.Drawing.Size(1192, 882);
             this.filterPeoplePanel.TabIndex = 2;
             this.filterPeoplePanel.Visible = false;
             this.filterPeoplePanel.Click += new System.EventHandler(this.filterPeoplePanel_Click);
@@ -356,10 +362,11 @@
             // 
             // visitorPanel
             // 
-            this.visitorPanel.AutoSize = true;
-            this.visitorPanel.Location = new System.Drawing.Point(12, 91);
+            this.visitorPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.visitorPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.visitorPanel.Location = new System.Drawing.Point(0, 0);
             this.visitorPanel.Name = "visitorPanel";
-            this.visitorPanel.Size = new System.Drawing.Size(1168, 753);
+            this.visitorPanel.Size = new System.Drawing.Size(1192, 882);
             this.visitorPanel.TabIndex = 2;
             this.visitorPanel.Visible = false;
             this.visitorPanel.Click += new System.EventHandler(this.visitorPanel_Click);
@@ -367,10 +374,11 @@
             // 
             // visitorPaulPanel
             // 
-            this.visitorPaulPanel.AutoSize = true;
-            this.visitorPaulPanel.Location = new System.Drawing.Point(12, 91);
+            this.visitorPaulPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.visitorPaulPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.visitorPaulPanel.Location = new System.Drawing.Point(0, 0);
             this.visitorPaulPanel.Name = "visitorPaulPanel";
-            this.visitorPaulPanel.Size = new System.Drawing.Size(1168, 753);
+            this.visitorPaulPanel.Size = new System.Drawing.Size(1192, 882);
             this.visitorPaulPanel.TabIndex = 2;
             this.visitorPaulPanel.Visible = false;
             this.visitorPaulPanel.Click += new System.EventHandler(this.visitorPaulPanel_Click);
@@ -378,10 +386,11 @@
             // 
             // studentVisitorPanel
             // 
-            this.studentVisitorPanel.AutoSize = true;
-            this.studentVisitorPanel.Location = new System.Drawing.Point(12, 91);
+            this.studentVisitorPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.studentVisitorPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.studentVisitorPanel.Location = new System.Drawing.Point(0, 0);
             this.studentVisitorPanel.Name = "studentVisitorPanel";
-            this.studentVisitorPanel.Size = new System.Drawing.Size(1168, 753);
+            this.studentVisitorPanel.Size = new System.Drawing.Size(1192, 882);
             this.studentVisitorPanel.TabIndex = 2;
             this.studentVisitorPanel.Visible = false;
             this.studentVisitorPanel.Click += new System.EventHandler(this.studentVisitorPanel_Click);
@@ -389,10 +398,11 @@
             // 
             // extinguisherPanel
             // 
-            this.extinguisherPanel.AutoSize = true;
-            this.extinguisherPanel.Location = new System.Drawing.Point(12, 91);
+            this.extinguisherPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.extinguisherPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.extinguisherPanel.Location = new System.Drawing.Point(0, 0);
             this.extinguisherPanel.Name = "extinguisherPanel";
-            this.extinguisherPanel.Size = new System.Drawing.Size(1168, 753);
+            this.extinguisherPanel.Size = new System.Drawing.Size(1192, 882);
             this.extinguisherPanel.TabIndex = 2;
             this.extinguisherPanel.Visible = false;
             this.extinguisherPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.extinguisherPanel_Paint);
@@ -401,6 +411,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1192, 882);
             this.Controls.Add(this.metroCteFlrPlanPanel);
             this.Controls.Add(this.LoginPanel);
@@ -409,7 +420,6 @@
             this.Controls.Add(this.filterPeoplePanel);
             this.Controls.Add(this.btnP1Off);
             this.Controls.Add(this.gridSocketPanel);
-            this.Controls.Add(this.btnPanelCtl);
             this.Controls.Add(this.btnSocketOn);
             this.Controls.Add(this.DashBoardPanel);
             this.Controls.Add(this.btnSocketOff);
@@ -442,7 +452,6 @@
         private System.Windows.Forms.Button btnSocketOff;
         private System.Windows.Forms.Button btnP1On;
         private System.Windows.Forms.Button btnP2Off;
-        private System.Windows.Forms.Button btnPanelCtl;
         private System.Windows.Forms.Panel DashBoardPanel;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label6;
