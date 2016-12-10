@@ -11,6 +11,9 @@ namespace N2ManagementConsole
     public partial class frmLogin : Form
     {
         clsMySQL oMySql = new clsMySQL();
+        Boolean dbaseIsBusy = false;
+        string monitoredSlug = String.Empty;
+
         Bitmap loginBitMap = null;
         Bitmap DashboardBitMap = null;
         Bitmap MetroCtrFlrPlanBitMap = null;
@@ -30,38 +33,32 @@ namespace N2ManagementConsole
 
         private void sendToggleCommand(int relay, int data)
         {
-            oMySql.OpenConnection();
-            if (oMySql.mySqlCn != null)
+            if (dbaseIsBusy)
+                return;
+
+            dbaseIsBusy = true;
+
+            try
             {
-                //create command and assign the query and connection from the constructor
-                string query = String.Format("insert into EquipToggleCommands (TargetDevice, relay, data) values ('dfy1GO','{0}','{1}');",relay, data);
-                MySqlCommand cmd = new MySqlCommand(query, oMySql.mySqlCn);
+                oMySql.OpenConnection();
+                if (oMySql.mySqlCn != null)
+                {
+                    //create command and assign the query and connection from the constructor
+                    string query = String.Format("insert into EquipToggleCommands (TargetDevice, relay, data) values ('dfy1GO','{0}','{1}');", relay, data);
+                    MySqlCommand cmd = new MySqlCommand(query, oMySql.mySqlCn);
 
-                //Execute command
-                cmd.ExecuteNonQuery();
+                    //Execute command
+                    cmd.ExecuteNonQuery();
+                }
+                oMySql.closeConnection();
             }
-            oMySql.closeConnection();
+            catch (Exception Ex)
+            {
+                MessageBox.Show(Ex.Message);
+            }
+            dbaseIsBusy = false;
         }
 
-        private void btnSocketOn_Click(object sender, EventArgs e)
-        {
-            sendToggleCommand(10,1);
-        }
-
-        private void btnSocketOff_Click(object sender, EventArgs e)
-        {
-            sendToggleCommand(10, 0);
-        }
-
-        private void btnP1On_Click(object sender, EventArgs e)
-        {
-            sendToggleCommand(30, 1);
-        }
-
-        private void btnP2Off_Click(object sender, EventArgs e)
-        {
-            sendToggleCommand(31, 0);
-        }
 
         private void setBackGroundImageBitMap(Bitmap newBitMap, PaintEventArgs e)
         {
@@ -75,47 +72,21 @@ namespace N2ManagementConsole
         private void LoginPanel_Paint(object sender, PaintEventArgs e)
         {
             Assembly asm = Assembly.GetExecutingAssembly();
-            if (loginBitMap == null)
-                loginBitMap = new Bitmap(asm.GetManifestResourceStream("N2ManagementConsole.Resources.SuperGridMain.png"));
 
-            setBackGroundImageBitMap(loginBitMap, e);
+            using (loginBitMap = new Bitmap(asm.GetManifestResourceStream("N2ManagementConsole.Resources.SuperGridMain.png")))
+            {
+                setBackGroundImageBitMap(loginBitMap, e);
+            }
         }
 
         private void DashBoardPanel_Paint(object sender, PaintEventArgs e)
         {
             Assembly asm = Assembly.GetExecutingAssembly();
 
-            loginBitMap.Dispose();
-            loginBitMap = null;
-            if (DashboardBitMap == null)
-                DashboardBitMap = new Bitmap(asm.GetManifestResourceStream("N2ManagementConsole.Resources.SuperGridDashboard.png"));
-
-            setBackGroundImageBitMap(DashboardBitMap, e);
-        }
-
-        private void btnPanelCtl_Click(object sender, EventArgs e)
-        {
-            if (DashBoardPanel.Visible == false)
+            using (DashboardBitMap = new Bitmap(asm.GetManifestResourceStream("N2ManagementConsole.Resources.SuperGridDashboard.png")))
             {
-                DashBoardPanel.Visible = true;
-                metroCteFlrPlanPanel.Visible = false;
+                setBackGroundImageBitMap(DashboardBitMap, e);
             }
-            else
-            {
-                DashBoardPanel.Visible = false;
-                metroCteFlrPlanPanel.Visible = true;
-            }
-
-        }
-
-        private void btnP1Off_Click(object sender, EventArgs e)
-        {
-            sendToggleCommand(30, 0);
-        }
-
-        private void btnP2On_Click(object sender, EventArgs e)
-        {
-            sendToggleCommand(31, 1);
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -134,37 +105,21 @@ namespace N2ManagementConsole
         {
             Assembly asm = Assembly.GetExecutingAssembly();
 
-            if (DashboardBitMap != null)
+            using (MetroCtrFlrPlanBitMap = new Bitmap(asm.GetManifestResourceStream("N2ManagementConsole.Resources.MetroCtrFloorPlan.png")))
             {
-                DashboardBitMap.Dispose();
-                DashboardBitMap = null;
+                setBackGroundImageBitMap(MetroCtrFlrPlanBitMap, e);
             }
-
-            if (MetroCtrFlrPlanBitMap == null)
-            {
-                MetroCtrFlrPlanBitMap = new Bitmap(asm.GetManifestResourceStream("N2ManagementConsole.Resources.MetroCtrFloorPlan.png"));
-            }
-
-            setBackGroundImageBitMap(MetroCtrFlrPlanBitMap, e);
         }
 
         private void socketsInMetroCtrPanel_Paint(object sender, PaintEventArgs e)
         {
             Assembly asm = Assembly.GetExecutingAssembly();
 
-            if (MetroCtrFlrPlanBitMap != null)
+            using (socketsInMetroCtrBitMap = new Bitmap(asm.GetManifestResourceStream("N2ManagementConsole.Resources.socketsInMetroCtr.png")))
             {
-                MetroCtrFlrPlanBitMap.Dispose();
-                MetroCtrFlrPlanBitMap = null;
+                setBackGroundImageBitMap(socketsInMetroCtrBitMap, e);
             }
 
-            if (socketsInMetroCtrBitMap == null)
-            {
-                socketsInMetroCtrBitMap = new Bitmap(asm.GetManifestResourceStream("N2ManagementConsole.Resources.socketsInMetroCtr.png"));
-            }
-
-            setBackGroundImageBitMap(socketsInMetroCtrBitMap, e);
-            
         }
 
         private void metroCteFlrPlanPanel_Click(object sender, EventArgs e)
@@ -177,19 +132,10 @@ namespace N2ManagementConsole
         {
             Assembly asm = Assembly.GetExecutingAssembly();
 
-            if (socketsInMetroCtrBitMap != null)
+            using (TenthFlrpanelBitMap = new Bitmap(asm.GetManifestResourceStream("N2ManagementConsole.Resources.metroCtrTenthFlr.png")))
             {
-                socketsInMetroCtrBitMap.Dispose();
-                socketsInMetroCtrBitMap = null;
+                setBackGroundImageBitMap(TenthFlrpanelBitMap, e);
             }
-
-            if (TenthFlrpanelBitMap == null)
-            {
-                TenthFlrpanelBitMap = new Bitmap(asm.GetManifestResourceStream("N2ManagementConsole.Resources.metroCtrTenthFlr.png"));
-            }
-
-            setBackGroundImageBitMap(TenthFlrpanelBitMap, e);
-            
         }
 
         private void socketsInMetroCtrPanel_Click(object sender, EventArgs e)
@@ -200,95 +146,30 @@ namespace N2ManagementConsole
 
         private void TenthFlrpanel_Click(object sender, EventArgs e)
         {
-            TenthFlrpanel.Visible = false;
-            SandBoxPanel.Visible = true;
+            controlPanel.Visible = true;
         }
 
-        private void SandBoxPanel_Paint(object sender, PaintEventArgs e)
-        {
 
-            Assembly asm = Assembly.GetExecutingAssembly();
-
-            if (TenthFlrpanelBitMap != null)
-            {
-                TenthFlrpanelBitMap.Dispose();
-                TenthFlrpanelBitMap = null;
-            }
-
-            if (SandBoxPanelBitMap == null)
-            {
-                SandBoxPanelBitMap = new Bitmap(asm.GetManifestResourceStream("N2ManagementConsole.Resources.SuperGridSandBox.png"));
-            }
-
-            setBackGroundImageBitMap(SandBoxPanelBitMap, e);
-            
-        }
-
-        private void gridSocketPanel_Paint(object sender, PaintEventArgs e)
-        {
-            Assembly asm = Assembly.GetExecutingAssembly();
-
-            if (SandBoxPanelBitMap != null)
-            {
-                SandBoxPanelBitMap.Dispose();
-                SandBoxPanelBitMap = null;
-            }
-
-            if (gridSocketPanelBitMap == null)
-            {
-                gridSocketPanelBitMap = new Bitmap(asm.GetManifestResourceStream("N2ManagementConsole.Resources.SuperGridSocket.png"));
-            }
-
-            setBackGroundImageBitMap(gridSocketPanelBitMap, e);
-        }
-
-        private void SandBoxPanel_Click(object sender, EventArgs e)
-        {
-            SandBoxPanel.Visible = false;
-            gridSocketPanel.Visible = true;
-        }
 
         private void filterPeoplePanel_Paint(object sender, PaintEventArgs e)
         {
             Assembly asm = Assembly.GetExecutingAssembly();
 
-            if (gridSocketPanelBitMap != null)
+            using (filterPeopleBitMap = new Bitmap(asm.GetManifestResourceStream("N2ManagementConsole.Resources.SuperGrid_filter peops.png")))
             {
-                gridSocketPanelBitMap.Dispose();
-                gridSocketPanelBitMap = null;
+                setBackGroundImageBitMap(filterPeopleBitMap, e);
             }
-
-            if (filterPeopleBitMap == null)
-            {
-                filterPeopleBitMap = new Bitmap(asm.GetManifestResourceStream("N2ManagementConsole.Resources.SuperGrid_filter peops.png"));
-            }
-
-            setBackGroundImageBitMap(filterPeopleBitMap, e);
         }
 
-        private void gridSocketPanel_Click(object sender, EventArgs e)
-        {
-            gridSocketPanel.Visible = false;
-            filterPeoplePanel.Visible = true;
-        }
 
         private void visitorPanel_Paint(object sender, PaintEventArgs e)
         {
             Assembly asm = Assembly.GetExecutingAssembly();
 
-            if (filterPeopleBitMap != null)
+            using (visitorPanelBitMap = new Bitmap(asm.GetManifestResourceStream("N2ManagementConsole.Resources.SuperGrid_visitor.png")))
             {
-                filterPeopleBitMap.Dispose();
-                filterPeopleBitMap = null;
+                setBackGroundImageBitMap(visitorPanelBitMap, e);
             }
-
-            if (visitorPanelBitMap == null)
-            {
-                visitorPanelBitMap = new Bitmap(asm.GetManifestResourceStream("N2ManagementConsole.Resources.SuperGrid_visitor.png"));
-            }
-
-            setBackGroundImageBitMap(visitorPanelBitMap, e);
-
         }
 
         private void filterPeoplePanel_Click(object sender, EventArgs e)
@@ -301,18 +182,10 @@ namespace N2ManagementConsole
         {
             Assembly asm = Assembly.GetExecutingAssembly();
 
-            if (visitorPanelBitMap != null)
+            using (visitorPaulBitMap = new Bitmap(asm.GetManifestResourceStream("N2ManagementConsole.Resources.SuperGridPaulVisit.png")))
             {
-                visitorPanelBitMap.Dispose();
-                visitorPanelBitMap = null;
+                setBackGroundImageBitMap(visitorPaulBitMap, e);
             }
-
-            if (visitorPaulBitMap == null)
-            {
-                visitorPaulBitMap = new Bitmap(asm.GetManifestResourceStream("N2ManagementConsole.Resources.SuperGridPaulVisit.png"));
-            }
-
-            setBackGroundImageBitMap(visitorPaulBitMap, e);
         }
 
         private void visitorPanel_Click(object sender, EventArgs e)
@@ -325,19 +198,10 @@ namespace N2ManagementConsole
         {
             Assembly asm = Assembly.GetExecutingAssembly();
 
-            if (visitorPaulBitMap != null)
+            using (studentVisitorBitMap = new Bitmap(asm.GetManifestResourceStream("N2ManagementConsole.Resources.SuperGridStudentVisitor.png")))
             {
-                visitorPaulBitMap.Dispose();
-                visitorPaulBitMap = null;
+                setBackGroundImageBitMap(studentVisitorBitMap, e);
             }
-
-            if (studentVisitorBitMap == null)
-            {
-                studentVisitorBitMap = new Bitmap(asm.GetManifestResourceStream("N2ManagementConsole.Resources.SuperGridStudentVisitor.png"));
-            }
-
-            setBackGroundImageBitMap(studentVisitorBitMap, e);
-
         }
 
         private void visitorPaulPanel_Click(object sender, EventArgs e)
@@ -351,19 +215,10 @@ namespace N2ManagementConsole
         {
             Assembly asm = Assembly.GetExecutingAssembly();
 
-            if (studentVisitorBitMap != null)
+            using (extinguisherBitMap = new Bitmap(asm.GetManifestResourceStream("N2ManagementConsole.Resources.SuperGrid_Extinguisher.png")))
             {
-                studentVisitorBitMap.Dispose();
-                studentVisitorBitMap = null;
+                setBackGroundImageBitMap(extinguisherBitMap, e);
             }
-
-            if (extinguisherBitMap == null)
-            {
-                extinguisherBitMap = new Bitmap(asm.GetManifestResourceStream("N2ManagementConsole.Resources.SuperGrid_Extinguisher.png"));
-            }
-
-            setBackGroundImageBitMap(extinguisherBitMap, e);
-
         }
 
         private void studentVisitorPanel_Click(object sender, EventArgs e)
@@ -373,6 +228,293 @@ namespace N2ManagementConsole
         }
 
 
+        private void populate_Devices ()
+        {
+            if (dbaseIsBusy)
+                return;
+
+            dbaseIsBusy = true;
+
+            try
+            {
+                oMySql.OpenConnection();
+                if (oMySql.mySqlCn != null)
+                {
+                    //create command and assign the query and connection from the constructor
+                    string query = String.Format("select Address from  Equip  where ActiveFlag = 'Y';");
+                    MySqlCommand cmd = new MySqlCommand(query, oMySql.mySqlCn);
+
+                    //Execute command
+                    MySqlDataReader datareader = cmd.ExecuteReader();
+                    while (datareader.Read())
+                    {
+                        cmbDevices.Items.Add(datareader["Address"]);
+                    }
+
+                    datareader.Close();
+
+                }
+                oMySql.closeConnection();
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show(Ex.Message);
+            }
+            dbaseIsBusy = false;
+        }
+
+        private void controlPanel_VisibleChanged(object sender, EventArgs e)
+        {
+            if (controlPanel.Visible == true)
+            {
+                populate_Devices();
+                ctlPanelPictureBox.Image = Image.FromFile(@".\\Resources\\sandboxUser.png");
+                ctlPanelPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+            }
+        }
+
+        private void cmbDevices_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            mainSwitch.Enabled = true;
+            plug1Switch.Enabled = true;
+            plug2Switch.Enabled = true;
+            sensorMonitorSwitch.Enabled = true;
+
+            if (dbaseIsBusy)
+                return;
+
+            dbaseIsBusy = true;
+
+            try
+            {
+                oMySql.OpenConnection();
+                if (oMySql.mySqlCn != null)
+                {
+                    //create command and assign the query and connection from the constructor
+                    const string query = "update Equip set monitorSensors = 'N';";
+                    MySqlCommand cmd = new MySqlCommand(query, oMySql.mySqlCn);
+
+                    //Execute command
+                    cmd.ExecuteNonQuery();
+                }
+                oMySql.closeConnection();
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show(Ex.Message);
+            }
+            dbaseIsBusy = false;
+
+        }
+
+        private void sensorTmr_Tick(object sender, EventArgs e)
+        {
+            if (dbaseIsBusy)
+                return;
+
+            dbaseIsBusy = true;
+
+            try
+            {
+                oMySql.OpenConnection();
+                if (oMySql.mySqlCn != null)
+                {
+                    //create command and assign the query and connection from the constructif
+                    string query = String.Format("select * from sensorData where slug = '{0}' order by id desc limit 1;", monitoredSlug);
+                    MySqlCommand cmd = new MySqlCommand(query, oMySql.mySqlCn);
+
+                    //Execute command
+                    MySqlDataReader datareader = cmd.ExecuteReader();
+                    if (datareader.Read())
+                    {
+                        //populate sensor controls with latest readings ...
+                        lblVoltsValue.Text = datareader["volts"].ToString();
+                        lblAmpsValue.Text = datareader["amps"].ToString();
+                        lblWattsValue.Text = datareader["watts"].ToString();
+                        lblTempVal.Text = datareader["temperature"].ToString();
+                        lblHumidityVal.Text = datareader["humidity"].ToString();
+                        lblCOValue.Text = datareader["co"].ToString();
+                        lblMethaneVal.Text = datareader["methane"].ToString();
+                        lblStatusValue.Text = datareader["status"].ToString();
+                    }
+
+                    datareader.Close();
+                }
+                oMySql.closeConnection();
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show(Ex.Message);
+            }
+            dbaseIsBusy = false;
+        }
+
+        private void mainSwitch_Toggled(object sender, EventArgs e)
+        {
+            if (mainSwitch.IsOn)
+            {
+                sendToggleCommand(10, 1);
+            }
+            else
+            {
+                sendToggleCommand(10, 0);
+            }
+        }
+
+        private void plug1Switch_Toggled(object sender, EventArgs e)
+        {
+            if (plug1Switch.IsOn)
+            {
+                sendToggleCommand(30, 1);
+            }
+            else
+            {
+                sendToggleCommand(30, 0);
+            }
+        }
+
+        private void plug2Switch_Toggled(object sender, EventArgs e)
+        {
+            if (plug2Switch.IsOn)
+            {
+                sendToggleCommand(31, 1);
+            }
+            else
+            {
+                sendToggleCommand(31, 0);
+            }
+        }
+
+        private void sensorMonitorSwitch_Toggled(object sender, EventArgs e)
+        {
+            if (dbaseIsBusy || cmbDevices.Text.Length == 0)
+                return;
+
+            dbaseIsBusy = true;
+
+            try
+            {
+                oMySql.OpenConnection();
+                if (oMySql.mySqlCn != null)
+                {
+                    if (sensorMonitorSwitch.IsOn)
+                    {
+                        //create command and assign the query and connection from the constructor
+                        string query = String.Format("update Equip set monitorSensors = 'Y' where Address  = '{0}'", cmbDevices.Text);
+                        MySqlCommand cmd = new MySqlCommand(query, oMySql.mySqlCn);
+
+                        //Execute command
+                        cmd.ExecuteNonQuery();
+
+                        query = String.Format("select Slug from Equip where Address  = '{0}'", cmbDevices.Text);
+                        MySqlCommand cmd1 = new MySqlCommand(query, oMySql.mySqlCn);
+                        MySqlDataReader datareader = cmd1.ExecuteReader();
+                        if (datareader.Read())
+                        {
+                            monitoredSlug = datareader["Slug"].ToString();
+                            sensorTmr.Enabled = true;
+                        }
+
+                        datareader.Close();
+                    }
+                    else
+                    {
+                        //create command and assign the query and connection from the constructor
+                        string query = String.Format("update Equip set monitorSensors = 'N' where Address  = '{0}'", cmbDevices.Text);
+                        MySqlCommand cmd = new MySqlCommand(query, oMySql.mySqlCn);
+
+                        //Execute command
+                        cmd.ExecuteNonQuery();
+                        sensorTmr.Enabled = false;
+                    }
+                    oMySql.closeConnection();
+                }
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show(Ex.Message);
+            }
+
+            dbaseIsBusy = false;
+        }
+
+        private void radBtnSocket_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radBtnSocket.Checked == true)
+            {
+                radBtnSandbox.Checked = false;
+                ctlPanelPictureBox.Image = Image.FromFile(@".\\Resources\\socketUser.png");
+            }
+        }
+
+        private void radBtnSandbox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radBtnSandbox.Checked == true)
+            {
+                radBtnSocket.Checked = false;
+                ctlPanelPictureBox.Image = Image.FromFile(@".\\Resources\\sandboxUser.png");
+            }
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            controlPanel.Visible = false;
+            TenthFlrpanel.Visible = true;
+        }
+
+        private void btnBak_Click(object sender, EventArgs e)
+        {
+            socketsInMetroCtrPanel.Visible = true;
+            TenthFlrpanel.Visible = false;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            socketsInMetroCtrPanel.Visible = true;
+            TenthFlrpanel.Visible = false;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            socketsInMetroCtrPanel.Visible = false;
+            metroCteFlrPlanPanel.Visible = true;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            TenthFlrpanel.Visible = false;
+            filterPeoplePanel.Visible = true;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            TenthFlrpanel.Visible = true;
+            filterPeoplePanel.Visible = false;            
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            visitorPanel.Visible = false;
+            filterPeoplePanel.Visible = true;
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            visitorPaulPanel.Visible = false;
+            visitorPanel.Visible = true;
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            studentVisitorPanel.Visible = false;
+            visitorPaulPanel.Visible = true;
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            extinguisherPanel.Visible = false;
+            studentVisitorPanel.Visible = true;
+        }
 
     }
 }
