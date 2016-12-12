@@ -25,7 +25,7 @@
     <ProductName>N2 Management Console</ProductName>
     <PublisherName>N2 Global Solutions</PublisherName>
     <SuiteName>N2 Management Tools</SuiteName>
-    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationRevision>9</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -220,35 +220,35 @@
     </PublishFile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\socketUser.png">
+    <Content Include="Resources\socketUser.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\sandboxUser.png">
+    <Content Include="Resources\sandboxUser.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\sandboxIntervalUsageChart.png">
+    <Content Include="Resources\sandboxIntervalUsageChart.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\socketIntervalUsageChart.png">
+    </Content>
+    <Content Include="Resources\socketIntervalUsageChart.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\N2Global.png">
+    <Content Include="Resources\N2Global.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\SuperGrid.png">
+    </Content>
+    <Content Include="Resources\SuperGrid.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\paul_photo.jpg">
+    <Content Include="Resources\paul_photo.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
