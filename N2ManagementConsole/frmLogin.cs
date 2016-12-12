@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using System.Drawing;
 using System.Reflection;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace N2ManagementConsole
 {
@@ -234,6 +235,7 @@ namespace N2ManagementConsole
                 return;
 
             dbaseIsBusy = true;
+            cmbDevices.Items.Clear();
 
             try
             {
@@ -268,8 +270,23 @@ namespace N2ManagementConsole
             if (controlPanel.Visible == true)
             {
                 populate_Devices();
+
+                cmbDevices.SelectedIndex = cmbDevices.Items.Count - 1;
+
                 ctlPanelPictureBox.Image = Image.FromFile(@".\\Resources\\sandboxUser.png");
                 ctlPanelPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+                ctlPanelUsageChart.Image = Image.FromFile(@".\\Resources\\sandboxIntervalUsageChart.png");
+                ctlPanelUsageChart.SizeMode = PictureBoxSizeMode.StretchImage;
+
+                chart1.ChartAreas[0].AxisX.MajorGrid.LineWidth = 0;
+                chart1.ChartAreas[0].AxisY.MajorGrid.LineWidth = 0;
+
+                Axis axis = chart1.ChartAreas[0].Axes[0];   // your indices
+                LabelStyle als = new LabelStyle();
+                als.ForeColor = chart1.ChartAreas[0].BackColor;
+                axis.LabelStyle = als;
+                axis.MajorTickMark.TickMarkStyle = TickMarkStyle.None;
+                hide_monitored_values();
             }
         }
 
@@ -278,7 +295,6 @@ namespace N2ManagementConsole
             mainSwitch.Enabled = true;
             plug1Switch.Enabled = true;
             plug2Switch.Enabled = true;
-            sensorMonitorSwitch.Enabled = true;
 
             if (dbaseIsBusy)
                 return;
@@ -307,6 +323,7 @@ namespace N2ManagementConsole
 
         }
 
+        //private double timeValue = 0;
         private void sensorTmr_Tick(object sender, EventArgs e)
         {
             if (dbaseIsBusy)
@@ -333,14 +350,29 @@ namespace N2ManagementConsole
                         lblWattsValue.Text = datareader["watts"].ToString();
                         lblTempVal.Text = datareader["temperature"].ToString();
                         lblHumidityVal.Text = datareader["humidity"].ToString();
-                        lblCOValue.Text = datareader["co"].ToString();
+                        //lblCOValue.Text = datareader["co"].ToString();
                         lblMethaneVal.Text = datareader["methane"].ToString();
                         lblStatusValue.Text = datareader["status"].ToString();
+
+                        if (chart1.Series[0].Points.Count > 30)
+                        {
+                            chart1.Series[0].Points.RemoveAt(0);
+                            chart1.ResetAutoValues();
+                        }
+                        else
+                        {
+                            chart1.Series[0].Points.AddXY(DateTime.Now.ToOADate(), Convert.ToDouble(lblWattsValue.Text));
+                        }
+
+
+                        //chart1.Series["Wattage"].Points.AddXY(timeValue, Convert.ToDouble(lblWattsValue.Text));
+                        //timeValue += sensorTmr.Interval/1000;
                     }
 
                     datareader.Close();
                 }
                 oMySql.closeConnection();
+                show_monitored_values();
             }
             catch (Exception Ex)
             {
@@ -354,10 +386,13 @@ namespace N2ManagementConsole
             if (mainSwitch.IsOn)
             {
                 sendToggleCommand(10, 1);
+                sensorMonitorSwitch.Enabled = true;
             }
             else
             {
                 sendToggleCommand(10, 0);
+                if (!mainSwitch.IsOn && !plug1Switch.IsOn && !plug2Switch.IsOn)
+                    sensorMonitorSwitch.Enabled = false;
             }
         }
 
@@ -366,10 +401,13 @@ namespace N2ManagementConsole
             if (plug1Switch.IsOn)
             {
                 sendToggleCommand(30, 1);
+                sensorMonitorSwitch.Enabled = true;
             }
             else
             {
                 sendToggleCommand(30, 0);
+                if (!mainSwitch.IsOn && !plug1Switch.IsOn && !plug2Switch.IsOn)
+                    sensorMonitorSwitch.Enabled = false;
             }
         }
 
@@ -378,10 +416,13 @@ namespace N2ManagementConsole
             if (plug2Switch.IsOn)
             {
                 sendToggleCommand(31, 1);
+                sensorMonitorSwitch.Enabled = true;
             }
             else
             {
                 sendToggleCommand(31, 0);
+                if (!mainSwitch.IsOn && !plug1Switch.IsOn && !plug2Switch.IsOn)
+                    sensorMonitorSwitch.Enabled = false;
             }
         }
 
@@ -416,6 +457,10 @@ namespace N2ManagementConsole
                         }
 
                         datareader.Close();
+                        chart1.Visible = true;
+                        ctlPanelUsageChart.Visible = true;
+                        label10.Visible = true;
+
                     }
                     else
                     {
@@ -426,6 +471,9 @@ namespace N2ManagementConsole
                         //Execute command
                         cmd.ExecuteNonQuery();
                         sensorTmr.Enabled = false;
+                        chart1.Visible = false;
+                        ctlPanelUsageChart.Visible = false;
+                        label10.Visible = false;
                     }
                     oMySql.closeConnection();
                 }
@@ -444,6 +492,8 @@ namespace N2ManagementConsole
             {
                 radBtnSandbox.Checked = false;
                 ctlPanelPictureBox.Image = Image.FromFile(@".\\Resources\\socketUser.png");
+                ctlPanelUsageChart.Image = Image.FromFile(@".\\Resources\\socketIntervalUsageChart.png");
+                lblUnitType.Text = "Duplex outlet: ss 101";
             }
         }
 
@@ -453,6 +503,8 @@ namespace N2ManagementConsole
             {
                 radBtnSocket.Checked = false;
                 ctlPanelPictureBox.Image = Image.FromFile(@".\\Resources\\sandboxUser.png");
+                ctlPanelUsageChart.Image = Image.FromFile(@".\\Resources\\sandboxIntervalUsageChart.png");
+                lblUnitType.Text = "SandBox: sb122";
             }
         }
 
@@ -464,8 +516,8 @@ namespace N2ManagementConsole
 
         private void btnBak_Click(object sender, EventArgs e)
         {
-            socketsInMetroCtrPanel.Visible = true;
-            TenthFlrpanel.Visible = false;
+            DashBoardPanel.Visible = true;
+            metroCteFlrPlanPanel.Visible = false;
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -514,6 +566,49 @@ namespace N2ManagementConsole
         {
             extinguisherPanel.Visible = false;
             studentVisitorPanel.Visible = true;
+        }
+
+        private void LoginPanel_VisibleChanged(object sender, EventArgs e)
+        {
+            if (LoginPanel.Visible == true)
+            {
+                SuperGridPicBox.Image = Image.FromFile(@".\\Resources\\SuperGrid.png");
+                SuperGridPicBox.SizeMode = PictureBoxSizeMode.StretchImage;
+                N2GlobalPicBox.Image = Image.FromFile(@".\\Resources\\N2Global.png");
+                N2GlobalPicBox.SizeMode = PictureBoxSizeMode.StretchImage;
+                loggedInUserPicBox.Image = Image.FromFile(@".\\Resources\\paul_photo.jpg");
+                loggedInUserPicBox.SizeMode = PictureBoxSizeMode.StretchImage;
+            }
+        }
+
+        private void hide_monitored_values ()
+        {
+            lblTempVal.Visible = false;
+            lblHumidityVal.Visible = false;
+            lblMethaneVal.Visible = false;
+            lblCOValue.Visible = false;
+            lblVOCVal.Visible = false;
+            lblCO2Val.Visible = false;
+            lblStatusValue.Visible = false;
+            lblWattsValue.Visible = false;
+            lblAmpsValue.Visible = false;
+            lblVoltsValue.Visible = false;
+        }
+
+        private void show_monitored_values()
+        {
+            if (lblTempVal.Visible == true)
+                return;
+            lblTempVal.Visible = true;
+            lblHumidityVal.Visible = true;
+            lblMethaneVal.Visible = true;
+            lblCOValue.Visible = true;
+            lblVOCVal.Visible = true;
+            lblCO2Val.Visible = true;
+            lblStatusValue.Visible = true;
+            lblWattsValue.Visible = true;
+            lblAmpsValue.Visible = true;
+            lblVoltsValue.Visible = true;
         }
 
     }
