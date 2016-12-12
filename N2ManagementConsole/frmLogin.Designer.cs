@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea12 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend12 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title12 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea14 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend14 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series14 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title14 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.lblDevices = new System.Windows.Forms.Label();
             this.cmbDevices = new System.Windows.Forms.ComboBox();
             this.DashBoardPanel = new System.Windows.Forms.Panel();
@@ -480,26 +480,26 @@
             this.chart1.BackColor = System.Drawing.Color.SteelBlue;
             this.chart1.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.TopRight;
             this.chart1.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Scaled;
-            chartArea12.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.TopRight;
-            chartArea12.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea12);
-            legend12.Enabled = false;
-            legend12.Name = "Legend1";
-            this.chart1.Legends.Add(legend12);
+            chartArea14.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.TopRight;
+            chartArea14.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea14);
+            legend14.Enabled = false;
+            legend14.Name = "Legend1";
+            this.chart1.Legends.Add(legend14);
             this.chart1.Location = new System.Drawing.Point(255, 255);
             this.chart1.Name = "chart1";
-            series12.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.BottomLeft;
-            series12.ChartArea = "ChartArea1";
-            series12.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.SplineArea;
-            series12.Legend = "Legend1";
-            series12.Name = "Wattage";
-            this.chart1.Series.Add(series12);
+            series14.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.BottomLeft;
+            series14.ChartArea = "ChartArea1";
+            series14.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.SplineArea;
+            series14.Legend = "Legend1";
+            series14.Name = "Wattage";
+            this.chart1.Series.Add(series14);
             this.chart1.Size = new System.Drawing.Size(291, 167);
             this.chart1.TabIndex = 56;
             this.chart1.Text = "chart1";
-            title12.Name = "Title1";
-            title12.Text = "Power Consumption (Wattage)";
-            this.chart1.Titles.Add(title12);
+            title14.Name = "Title1";
+            title14.Text = "Power Consumption (Wattage)";
+            this.chart1.Titles.Add(title14);
             this.chart1.Visible = false;
             // 
             // btnClose
@@ -649,7 +649,6 @@
             // 
             // sensorMonitorSwitch
             // 
-            this.sensorMonitorSwitch.Enabled = false;
             this.sensorMonitorSwitch.Location = new System.Drawing.Point(439, 25);
             this.sensorMonitorSwitch.Name = "sensorMonitorSwitch";
             this.sensorMonitorSwitch.Properties.OffText = "Off";
@@ -669,6 +668,7 @@
             // 
             // plug2Switch
             // 
+            this.plug2Switch.EditValue = true;
             this.plug2Switch.Enabled = false;
             this.plug2Switch.Location = new System.Drawing.Point(132, 268);
             this.plug2Switch.Name = "plug2Switch";
@@ -689,6 +689,7 @@
             // 
             // plug1Switch
             // 
+            this.plug1Switch.EditValue = true;
             this.plug1Switch.Enabled = false;
             this.plug1Switch.Location = new System.Drawing.Point(132, 236);
             this.plug1Switch.Name = "plug1Switch";
@@ -718,6 +719,7 @@
             // 
             // mainSwitch
             // 
+            this.mainSwitch.EditValue = true;
             this.mainSwitch.Enabled = false;
             this.mainSwitch.Location = new System.Drawing.Point(132, 203);
             this.mainSwitch.Name = "mainSwitch";
